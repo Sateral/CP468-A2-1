@@ -1,0 +1,34 @@
+html, body, :root, #root {
+    height: 100%;
+}
+
+.sudoku-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 1px;
+    max-width: 360px;
+    margin: auto;
+  }
+  
+  .sudoku-row {
+    display: contents;
+  }
+  
+  .sudoku-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .sudoku-cell:nth-child(3n) {
+    border-right: 2px solid #000;
+  }
+  
+  .sudoku-row:nth-child(3n) .sudoku-cell {
+    border-bottom: 2px solid #000;
+  }
