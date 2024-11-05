@@ -20,6 +20,7 @@ This project is a full-stack Sudoku solver that utilizes the AC-3 (Arc Consisten
    ```
 3. Install dependencies:
    ```bash
+   cd frontend
    npm install
    ```
 
@@ -27,6 +28,7 @@ This project is a full-stack Sudoku solver that utilizes the AC-3 (Arc Consisten
 
 1. Start the development server:
    ```bash
-   npm start
+   cd backend
+   python app.py
    ```
 2. Open your browser and navigate to `http://localhost:3000`.
