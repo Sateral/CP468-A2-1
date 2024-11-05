@@ -10,6 +10,7 @@ import axios from "axios";
 const Sudoku = () => {
   const [grid, setGrid] = useState<number[][]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [valid, setValid] = useState<boolean | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const Sudoku = () => {
 
   const handleReset = () => {
     const sudoku = getSudoku();
+    setValid(null);
     setGrid(interpretSudokuPuzzle(sudoku.puzzle));
   };
 
@@ -66,13 +68,14 @@ const Sudoku = () => {
       console.log(response.data);
       if (valid) {
         console.log("The Sudoku grid is valid!");
+        setValid(true);
         setGrid(solvedGrid);
       } else {
-        console.log("The Sudoku grid is invalid.");
+        console.log("AC-3 did not completely solve the puzzle.");
+        setValid(false);
       }
     } catch (error) {
       console.error("Error checking Sudoku grid:", error);
-      alert("There was an error checking the Sudoku grid.");
     }
   };
 
@@ -80,7 +83,18 @@ const Sudoku = () => {
     <div>
       <SudokuGrid grid={grid} onInputChange={handleInputChange} />
       <div className="grid grid-cols-2 gap-2 grid-rows-2 mt-4">
-        <Button onClick={handleCheck}>Check</Button>
+        <Button
+          onClick={handleCheck}
+          className={`${
+            valid === null
+              ? "bg-black"
+              : valid
+              ? "bg-green-600"
+              : "bg-yellow-600"
+          }`}
+        >
+          Check
+        </Button>
         <Button variant="destructive" onClick={handleReset}>
           Reset
         </Button>

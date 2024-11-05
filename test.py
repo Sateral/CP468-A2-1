@@ -24,7 +24,6 @@ def parse_sudoku_from_matrix(matrix):
                 domains[(i, j)] = {value}
     return domains
 
-
 def get_neighbors(var):
    """Return all neighbors of a variable (row, column, and subgrid constraints)."""
    row, col = var
@@ -42,8 +41,6 @@ def get_neighbors(var):
            if (r, c) != var:
                neighbors.add((r, c))
    return neighbors
-
-
 def ac3(domains):
    """Enforce arc-consistency using the AC-3 algorithm."""
    queue = deque((X, Y) for X in domains for Y in get_neighbors(X))
@@ -60,8 +57,6 @@ def ac3(domains):
        queue_lengths.append(len(queue))
   
    return True, queue_lengths
-
-
 def revise(domains, X, Y):
    """Revise the domain of X to satisfy arc-consistency with Y."""
    revised = False
@@ -70,35 +65,51 @@ def revise(domains, X, Y):
            domains[X].remove(x)
            revised = True
    return revised
-
-
 def is_solved(domains):
    """Check if the CSP is completely solved."""
    return all(len(domains[cell]) == 1 for cell in domains)
-
-
 def get_solution(domains):
    """Convert the domains to a 9x9 solved grid if solved."""
    solution = [[0] * 9 for _ in range(9)]
    for (row, col), domain in domains.items():
        solution[row][col] = next(iter(domain))
    return solution
+def display_solution(solution):
+   """Display the Sudoku solution in a readable format."""
+   for row in solution:
+       print(" ".join(map(str, row)))
 
-def solve_sudoku(input_grid):
+
+# Example: To solve a Sudoku puzzle from 'input.txt'
+def solve_sudoku(input_file):
     """Main function to solve the Sudoku using AC-3 and constraint propagation if needed."""
-    domains = parse_sudoku_from_matrix(input_grid)
-
+    domains = parse_sudoku_from_matrix(input_file)
     result, queue_lengths = ac3(domains)
     
     # Report queue lengths
     print("Queue lengths at each step:", queue_lengths)
-
     
     # Check if AC-3 solved the puzzle
     if is_solved(domains):
         print("The puzzle is solved by AC-3 alone.")
-        return True, get_solution(domains)
+        display_solution(get_solution(domains))
     else:
         print("AC-3 did not completely solve the puzzle.")
-        return False, None
         # Additional solving with constraint propagation if necessary
+
+
+if __name__ == "__main__":
+   # Example 9x9 Sudoku puzzle
+   sample_puzzle = [
+       [5, 3, 0, 0, 7, 0, 0, 0, 0],
+       [6, 0, 0, 1, 9, 5, 0, 0, 0],
+       [0, 9, 8, 0, 0, 0, 0, 6, 0],
+       [8, 0, 0, 0, 6, 0, 0, 0, 3],
+       [4, 0, 0, 8, 0, 3, 0, 0, 1],
+       [7, 0, 0, 0, 2, 0, 0, 0, 6],
+       [0, 6, 0, 0, 0, 0, 2, 8, 0],
+       [0, 0, 0, 4, 1, 9, 0, 0, 5],
+       [0, 0, 0, 0, 8, 0, 0, 7, 9]
+   ]
+  
+   solve_sudoku(sample_puzzle)

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from sudoku_validator import validate_sudoku
+from sudoku_validator import solve_sudoku
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +15,7 @@ def check_sudoku():
     grid = data.get('grid')
     # Process the grid here
     # For example, you can validate the Sudoku grid
-    is_valid, solvedGrid = validate_sudoku(grid)
+    is_valid, solvedGrid = solve_sudoku(grid)
     return jsonify({'valid': is_valid, 'solvedGrid': solvedGrid})
 
 if __name__ == '__main__':
