@@ -53,6 +53,7 @@ const Sudoku = () => {
         );
         setIsDialogOpen(true);
       }
+      event.target.value = "";
     }
   };
 

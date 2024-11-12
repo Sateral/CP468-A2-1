@@ -13,8 +13,6 @@ def hello():
 def check_sudoku():
     data = request.json
     grid = data.get('grid')
-    # Process the grid here
-    # For example, you can validate the Sudoku grid
     is_valid, solvedGrid, message = solve_sudoku(grid)
     return jsonify({'valid': is_valid, 'solvedGrid': solvedGrid, 'message': message})
 
