@@ -11,6 +11,7 @@ const Sudoku = () => {
   const [grid, setGrid] = useState<number[][]>([]);
   const [error, setError] = useState<string | null>(null);
   const [valid, setValid] = useState<boolean | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const Sudoku = () => {
 
   const handleReset = () => {
     const sudoku = getSudoku();
+    setMessage("Press Check");
     setValid(null);
     setGrid(interpretSudokuPuzzle(sudoku.puzzle));
   };
@@ -66,6 +68,7 @@ const Sudoku = () => {
       });
       const { valid, solvedGrid, message } = response.data;
       console.log(message);
+      setMessage(message);
       if (valid) {
         setValid(true);
         setGrid(solvedGrid);
@@ -79,6 +82,11 @@ const Sudoku = () => {
 
   return (
     <div>
+      {message !== null ? (
+        <div className="flex items-center justify-center w-full mb-4 p-4 rounded-md text-white bg-[#333] font-bold">
+          {message}
+        </div>
+      ) : null}
       <SudokuGrid grid={grid} onInputChange={handleInputChange} />
       <div className="grid grid-cols-2 gap-2 grid-rows-2 mt-4">
         <Button
