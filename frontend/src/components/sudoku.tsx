@@ -64,14 +64,12 @@ const Sudoku = () => {
       const response = await axios.post("http://localhost:5000/check", {
         grid,
       });
-      const { valid, solvedGrid } = response.data;
-      console.log(response.data);
+      const { valid, solvedGrid, message } = response.data;
+      console.log(message);
       if (valid) {
-        console.log("The Sudoku grid is valid!");
         setValid(true);
         setGrid(solvedGrid);
       } else {
-        console.log("AC-3 did not completely solve the puzzle.");
         setValid(false);
       }
     } catch (error) {
